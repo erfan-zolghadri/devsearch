@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Log In/Sign Up
+{% endblock page_title %}
+
+{% block content %}
+<main class="auth">
+    <div class="main-wrapper">
+        {% if page == 'register' %}
+        <div class="auth__auth-card-wrapper auth__auth-card-wrapper_register">
+            <div class="card auth-card">
+                <div class="mb-lg auth-card__icon-wrapper">
+                    <img src="{% static 'img/icons/search.svg' %}" alt="Icon" class="auth-card__icon">
+                </div>
+                <h2 class="text-xlg text-center mb-xsm">Account Sign Up</h2>
+                <p class="text-lg text-light text-center mb-lg">Create a new developer account</p>
+                <form action="" method="POST" class="form">
+                    {% csrf_token %}
+                    <div class="mb-md form__group">
+                        <label for="first-name" class="mb-xxsm form__label form__label_required">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="last-name" class="mb-xxsm form__label form__label_required">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="username" class="mb-xxsm form__label form__label_required">{{ form.username.label }}</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="email" class="mb-xxsm form__label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="password" class="mb-xxsm form__label form__label_required">{{ form.password1.label }}</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="confirm-password" class="mb-xxsm form__label form__label_required">{{ form.password2.label }}</label>
+                        {{ form.password2 }}
+                    </div>
+                    <div class="mb-lg form__actions">
+                        <button type="submit" class="button button_lg button_primary">Sign Up</button>
+                    </div>
+                    <div>
+                        <p class="text-sm">Already have an account?</p>
+                        <a href="{% url 'login' %}" class="text-lg text-primary">Log In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="auth__auth-card-wrapper">
+            <div class="card auth-card">
+                <div class="mb-lg auth-card__icon-wrapper">
+                    <img src="{% static 'img/icons/search.svg' %}" alt="Icon" class="auth-card__icon">
+                </div>
+                <h2 class="text-xlg text-center mb-xsm">Account Log In</h2>
+                <p class="text-lg text-light text-center mb-lg">Hello Developer, Welcome Back!</p>
+                <form action="" method="POST" class="form">
+                    {% csrf_token %}
+                    <div class="mb-md form__group">
+                        <label for="username" class="mb-xxsm form__label">Username:</label>
+                        <input type="text" name="username" class="bg-tertiary input form__input" id="username" required>
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="password" class="mb-xxsm form__label">Password:</label>
+                        <input type="password" name="password" class="bg-tertiary input form__input" id="password" required>
+                    </div>
+
+                    <div class="mb-lg form__actions">
+                        <button type="submit" class="button button_lg button_primary">Log In</button>
+                        <a href="{% url 'password_reset' %}" class="text-md text-underline text-primary">Forget Password?</a>
+                    </div>
+
+                    <div>
+                        <p class="text-sm">Don't have an account?</p>
+                        <a href="{% url 'register' %}" class="text-lg text-primary">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock content %}

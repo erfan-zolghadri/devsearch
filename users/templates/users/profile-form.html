@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Edit Account
+{% endblock title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <article class="card form-card">
+                <a href="{% url 'account' %}" class="mb-xlg tag tag_circle tag_default">
+                    <img src="{% static 'img/icons/angle-left.svg' %}">
+                </a>
+                <form action="" method="POST" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    <div class="mb-md form__group">
+                        <label for="first-name" class="mb-xxsm form__label">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="last-name" class="mb-xxsm form__label">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="username" class="mb-xxsm form__label">{{ form.username.label }}</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="email" class="mb-xxsm form__label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="headline" class="mb-xxsm form__label">{{ form.headline.label }}</label>
+                        {{ form.headline }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="bio" class="mb-xxsm form__label">{{ form.bio.label }}</label>
+                        {{ form.bio }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="image" class="mb-xxsm form__label">{{ form.image.label }}</label>
+                        {{ form.image }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="location" class="mb-xxsm form__label">{{ form.location.label }}</label>
+                        {{ form.location }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="github" class="mb-xxsm form__label">{{ form.github.label }}</label>
+                        {{ form.github }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="linkedin" class="mb-xxsm form__label">{{ form.linkedin.label }}</label>
+                        {{ form.linkedin }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="twitter" class="mb-xxsm form__label">{{ form.twitter.label }}</label>
+                        {{ form.twitter }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="youtube" class="mb-xxsm form__label">{{ form.youtube.label }}</label>
+                        {{ form.youtube }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="website" class="mb-xxsm form__label">{{ form.website.label }}</label>
+                        {{ form.website }}
+                    </div>
+                    <button class="button button_lg button_primary">Submit</button>
+                </form>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock content %}

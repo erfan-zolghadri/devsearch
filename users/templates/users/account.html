@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Account
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <div class="account">
+                <div class="layout">
+                    <div class="layout__column layout__column_1of3">
+                        <article class="card profile-card2">
+                            <div class="tags-wrapper tags-wrapper_lg mb-xlg account__tags-wrapper">
+                                <a href="{% url 'edit-profile' %}" class="tag tag_sm tag_default">
+                                    <img src="{% static '/img/icons/pencil.svg' %}" class="tag__icon">
+                                    <small class="text-xxsm">Edit</small>
+                                </a>
+                                <a href="{% url 'password_change' %}" class="tag tag_sm tag_default">
+                                    <img src="{% static '/img/icons/key.svg' %}" class="tag__icon">
+                                    <small class="text-xxsm">Change Password</small>
+                                </a>
+                                <a href="{% url 'delete-account' %}" class="tag tag_sm bg-danger-light">
+                                    <img src="{% static '/img/icons/trash.svg' %}" class="tag__icon">
+                                    <small class="text-xxsm text-danger">Delete Account</small>
+                                </a>
+                            </div>
+                            {% if profile.image %}
+                            <img src="{{ profile.image.url }}" alt="Profile Image" class="profile-card2__image">
+                            {% else %}
+                            <img src="{% static 'img/default_profile.png' %}" alt="Profile Image" class="profile-card2__image">
+                            {% endif %}
+                            <h2 class="text-xlg mb-sm">
+                                {{ profile.first_name|title }} {{ profile.last_name|title }}
+                            </h2>
+                            {% if profile.headline %}
+                            <h3 class="text-md text-light mb-sm">
+                                {{ profile.headline }}
+                            </h3>
+                            {% endif %}
+                            {% if profile.location %}
+                            <h4 class="text-sm mb-lg">
+                                Based in {{ profile.location }}
+                            </h4>
+                            {% endif %}
+                            <ul class="mb-xlg profile-card2__socials">
+                                {% if profile.github %}
+                                <li>
+                                    <a href="{{ profile.github }}" target="_blank">
+                                        <img src="{% static 'img/icons/brands/github.svg' %}">
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if profile.linkedin %}
+                                <li>
+                                    <a href="{{ profile.linkedin }}" target="_blank">
+                                        <img src="{% static 'img/icons/brands/linkedin.svg' %}">
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if profile.twitter %}
+                                <li>
+                                    <a href="{{ profile.twitter }}" target="_blank">
+                                        <img src="{% static 'img/icons/brands/twitter.svg' %}">
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if profile.youtube %}
+                                <li>
+                                    <a href="{{ profile.youtube }}" target="_blank">
+                                        <img src="{% static 'img/icons/brands/youtube.svg' %}">
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if profile.website %}
+                                <li>
+                                    <a href="{{ profile.website }}" target="_blank">
+                                        <img src="{% static 'img/icons/brands/globe.svg' %}">
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </article>
+                    </div>
+                    <div class="layout__column layout__column_2of3">
+                        <div class="mb-xxlg">
+                            <div class="mb-xxsm profile__dev-title">
+                                <h3 class="text-xlg mb-xxsm">About Me</h3>
+                            </div>
+                            {% if profile.bio %}
+                            <p class="text-sm">
+                            {{ profile.bio }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        <div class="mb-xxlg">
+                            <div class="mb-md profile__dev-title">
+                                <h3 class="text-xlg">Skills</h3>
+                                <a href="{% url 'add-skill' %}" class="tag tag_lg bg-lighter">
+                                    <img src="{% static 'img/icons/plus.svg' %}" class="tag__icon">
+                                    <small class="text-sm text-dark">Add Skill</small>
+                                </a>
+                            </div>
+                            {% if skills_with_description %}
+                            <div class="card settings-wrapper mb-md">
+                                {% for skill in skills_with_description %}
+                                <article class="bg-white skill-card">
+                                    <div class="skill-card__info">
+                                        <h3 class="text-md mb-xxsm">
+                                            {{ skill.name }}
+                                        </h3>
+                                        {% if skill.description %}
+                                        <p class="text-sm text-light">
+                                            {{ skill.description }}
+                                        </p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="skill-card__actions">
+                                        <a href="{% url 'edit-skill' pk=skill.id %}" class="tag tag_sm tag_default">
+                                            <img src="{% static 'img/icons/pencil.svg' %}" class="tag__icon">
+                                            <small class="text-xxsm">Edit</small>
+                                        </a>
+                                        <a href="{% url 'delete-skill' pk=skill.id %}?next=/account" class="tag tag_sm bg-danger-light">
+                                            <img src="{% static 'img/icons/trash.svg' %}" class="tag__icon">
+                                            <small class="text-xxsm text-danger">Delete</small>
+                                        </a>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            <div class="profile__dev-info">
+                                <h2 class="text-lg mb-sm profile__dev-title">Other Skills</h2>
+                                <div class="tags-wrapper tags-wrapper_lg">
+                                    {% for skill in skills_without_description %}
+                                    <span class="tag tag_lg bg-primary-light">
+                                        <a href="{% url 'delete-skill' pk=skill.id %}?next=/account" class="text-xlg text-danger tag__icon">&#215;</a>
+                                        <small class="text-sm text-primary">
+                                            {{ skill.name }}
+                                        </small>
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mb-lg profile__dev-title">
+                                <h3 class="text-xlg">Projects</h3>
+                                <a href="{% url 'add-project' %}" class="tag tag_lg bg-lighter">
+                                    <img src="{% static 'img/icons/plus.svg' %}" class="tag__icon">
+                                    <small class="text-sm text-dark">Add Project</small>
+                                </a>
+                            </div>
+                            {% if profile.project_set.all %}
+                            <div class="card settings-wrapper">
+                                {% for project in profile.project_set.all %}
+                                <article class="project-card2">
+                                    <a href="./profile.html">
+                                        {% if project.image %}
+                                        <img src="{{ project.image.url }}" alt="Project Image"
+                                        class="project-card2__image">
+                                        {% else %}
+                                        <img src="{% static 'img/default_project.jpg' %}" alt="Project Image" class="project-card2__image">
+                                        {% endif %}
+                                    </a>
+                                    <div class="project-card2__body">
+                                        <div class="project-card2__details">
+                                            <h3 class="text-md mb-xxsm">
+                                                {{ project.title }}
+                                            </h3>
+                                            {% if project.description %}
+                                            <p class="text-sm text-light">
+                                                {{ project.description }}
+                                            </p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="project-card2__actions">
+                                            <a href="{% url 'edit-project' pk=project.id %}" class="tag tag_sm tag_default">
+                                                <img src="{% static 'img/icons/pencil.svg' %}" class="tag__icon">
+                                                <small class="text-xxsm">Edit</small>
+                                            </a>
+                                            <a href="{% url 'delete-project' pk=project.id %}?next=/account" class="tag tag_sm bg-danger-light">
+                                                <img src="{% static 'img/icons/trash.svg' %}" class="tag__icon">
+                                                <small class="text-xxsm text-danger">Delete</small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

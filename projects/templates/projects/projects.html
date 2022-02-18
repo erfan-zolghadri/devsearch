@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+DevSearch Projects
+{% endblock page_title %}
+
+{% block content %}
+<header class="bg-secondary header">
+    <div class="main-wrapper">
+        <h1 class="text-xxlg text-center mb-xxlg">
+            <span class="header__title">
+                SEARCH FOR
+                <span class="text-bold">PROJECTS</span>
+            </span>
+        </h1>
+        <form action="{% url 'projects' %}" method="GET" class="text-center">
+            <input type="search" class="input header__input" name="search" value="{{ search }}" placeholder="Search for developers">
+            <button type="submit" class="button button_lg button_primary header__button">Search</button>
+        </form>
+    </div>
+</header>
+
+<main>
+    <section class="projects">
+        <div class="main-wrapper">
+            <div class="projects__wrapper">
+                {% for project in projects %}
+                {% include 'includes/project.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% include 'includes/pagination.html' with queryset=projects page_range=page_range %}
+</main>
+{% endblock content %}

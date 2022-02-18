@@ -1,0 +1,36 @@
+{% load static %}
+
+<article class="card project-card">
+    <a href="{% url 'project' pk=project.id %}" class="project-card__image-link">
+        {% if project.image %}
+        <img src="{{ project.image.url }}" alt="Project Image" class="project-card__image">
+        {% else %}
+        <img src="{% static 'img/default_project.jpg' %}" alt="Project Image" class="project-card__image">
+        {% endif %}
+    </a>
+    <div class="project-card__body">
+        <h3 class="text-lg">
+            {{ project.title }}
+        </h3>
+        <a href="{% url 'profile' pk=project.profile.id %}" class="text-xsm text-primary text-italic mb-xsm">
+            By {{ project.profile.first_name|title }} {{ project.profile.last_name|title }}
+        </a>
+        <p class="text-sm mb-md">
+            <span class="text-bold">
+                {{ project.votes_ratio }}%
+            </span>
+            Positive Feedback 
+            ({{ project.votes }} 
+            Vote{{ project.votes|pluralize:'s' }})
+        </p>
+        <div class="tags-wrapper tags-wrapper_sm">
+            {% for tag in project.tags.all|slice:'5' %}
+            <span class="tag tag_sm tag_default">
+                <small class="text-xxsm">
+                    {{ tag.name }}
+                </small>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+</article>

@@ -1,0 +1,4 @@
+closeAlertMessage();
+connectSearchWithPagination();
+removeTag();
+showNavbarMenu();

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Add/Edit Project
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <article class="card form-card">
+                <a href="{% url 'account' %}" class="mb-xlg tag tag_circle tag_default">
+                    <img src="{% static 'img/icons/angle-left.svg' %}">
+                </a>
+                <form action="" method="POST" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    <div class="mb-md form__group">
+                        <label for="project-title" class="mb-xxsm form__label form__label_required">
+                            {{ form.title.label }}
+                        </label>
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="project-description" class="mb-xxsm form__label">
+                            {{ form.description.label }}</label>
+                        {{ form.description }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="project-image" class="mb-xxsm form__label">
+                            {{ form.image.label }}
+                        </label>
+                        {{ form.image }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="project-demo-link" class="mb-xxsm form__label">
+                            {{ form.demo_link.label }}
+                        </label>
+                        {{ form.demo_link }}
+                    </div>
+                    <div class="mb-xlg form__group">
+                        <label for="project-source-link" class="mb-xxsm form__label">
+                            {{ form.source_link.label }}
+                        </label>
+                        {{ form.source_link }}
+                    </div>
+                    <div class="tags-wrapper tags-wrapper_sm">
+                        {% for tag in project.tags.all %}
+                        <span class="mb-xsm tag tag_sm tag_default js-tag" data-tag="{{ tag.id }}" data-project="{{ project.id }}">
+                            <span class="text-sm text-danger tag__icon">&#215;</span>
+                            <small class="text-xxsm">
+                                {{ tag.name }}
+                            </small>
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="project-tags" class="mb-xxsm form__label">Tags</label>
+                        <textarea name="project-tags" class="bg-tertiary input form__input form__input_textbox"
+                            id="project-tags"></textarea>
+                    </div>
+                    <button type="submit" class="button button_lg button_primary">Submit</button>
+                </form>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock content %}

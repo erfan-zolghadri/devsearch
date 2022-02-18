@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+Inbox
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <div class="inbox">
+                <h1 class="text-xlg mb-xlg">New Messages(<span class="text-primary">{{ unread_messages_count }}</span>)</h1>
+                {% if message_objects %}
+                <div class="card inbox__messages">
+                    {% for message in message_objects %}
+                    {% if not message.is_read %}
+                    <a href="{% url 'message' pk=message.id %}" class="inbox__message">
+                        <p href="" class="text-sm text-dark text-bold mb-xxsm inbox__author">
+                            {{ message.first_name|title }} {{ message.last_name|title }}
+                        </p>
+                        <p class="text-sm text-dark text-bold mb-sm inbox__subject">
+                            {{ message.subject }}
+                        </p>
+                        <p class="text-sm text-dark text-bold inbox__date">
+                            {{ message.created|date:"D d M Y, G:H" }}
+                        </p>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'message' pk=message.id %}" class="inbox__message">
+                        <p href="" class="text-sm text-light mb-xxsm inbox__author">
+                            {{ message.first_name|title }} {{ message.last_name|title }}
+                        </p>
+                        <p class="text-sm text-light mb-sm inbox__subject">
+                            {{ message.subject }}
+                        </p>
+                        <p class="text-sm text-light inbox__date">
+                            {{ message.created }}
+                        </p>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

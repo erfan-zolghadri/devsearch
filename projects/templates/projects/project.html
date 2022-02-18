@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+{{ project.profile.first_name|title }}'s Project
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <div class="project">
+                <div class="layout project__layout">
+                    <div class="layout__column layout__column_1of3 project__column-1of3">
+                        <h2 class="text-xlg mb-sm">Tools & Stacks</h2>
+                        <div class="mb-xlg tags-wrapper tags-wrapper_lg">
+                            {% for tag in project.tags.all %}
+                            <span class="tag tag_lg bg-primary-light">
+                                <small class="text-sm text-primary">
+                                    {{ tag.name }}
+                                </small>
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <div class="project__links">
+                            {% if project.source_link %}
+                            <a href="" class="text-sm text-underline text-primary project__link">
+                                <span>Source Code</span>
+                                <img src="{% static 'img/icons/external-link-alt.svg' %}" class="project__icon">
+                            </a>
+                            {% endif %}
+                            {% if project.demo_link %}
+                            <a href="" class="text-sm text-underline text-primary project__link">
+                                <span>Live Demo</span>
+                                <img src="{% static 'img/icons/external-link-alt.svg' %}" class="project__icon">
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="layout__column layout__column_2of3">
+                        {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="Project" class="mb-sm project__image">
+                        {% else %}
+                        <img src="{% static 'img/default_project.jpg' %}" alt="Project" class="mb-sm project__image">
+                        {% endif %}
+                        <a href="{% url 'profile' pk=project.profile.id %}" class="text-lg text-primary">
+                            {{ project.profile.first_name|title }} {{ project.profile.last_name|title }}
+                        </a>
+                        <h2 class="text-xxlg mb-lg">
+                            {{ project.title }}
+                        </h2>
+                        <div class="mb-xxlg">
+                            <h3 class="text-xlg mb-sm">About The Project</h3>
+                            {% if project.description %}
+                            <p class="text-sm">
+                                {{ project.description }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        <hr class="line mb-xxlg">
+                        <div>
+                            <h3 class="text-xlg mb-sm">Feedback</h3>
+                            <p class="text-lg mb-lg">
+                                {{ project.votes_ratio }}% Postitive Feedback 
+                                ({{ project.votes }} 
+                                Vote{{ project.votes|pluralize:'s' }})
+                            </p>
+                            {% if not request.user.is_authenticated %}
+                            <a href="{% url 'login' %}" class="text-md text-danger mb-xxlg">
+                                You must log in to add a review.
+                            </a>
+                            {% elif request.user.profile == project.profile %}
+                            <p class="text-md text-danger mb-xxlg">
+                                You are not allowed to add a review on your own project.
+                            </p>
+                            {% elif request.user.profile.id in project.reviewers %}
+                            <p class="text-md text-light mb-xxlg">
+                                You have added a review on this project already.
+                            </p>
+                            {% else %}
+                            <form action="{% url 'add-review' pk=project.id %}" method="POST" class="mb-xlg form">
+                                {% csrf_token %}
+                                <div class="mb-sm form__group">
+                                    {{ form.vote }}
+                                </div>
+                                <div class="mb-sm form__group">
+                                    {{ form.comment }}
+                                </div>
+                                <button type="submit" class="button button_lg button_primary">Add Review</button>
+                            </form>
+                            {% endif %}
+                            <div class="reviews-wrapper">
+                                {% for review in project.review_set.all %}
+                                {% if review.comment %}
+                                <article class="review">
+                                    <a href="{% url 'profile' pk=review.profile.id %}">
+                                        {% if review.profile.image %}
+                                        <img src="{{ review.profile.image.url }}" alt="Reviewer Image"
+                                            class="review__image">
+                                        {% else %}
+                                        <img src="{% static 'img/default_profile.png' %}" alt="Reviewer Image"
+                                            class="review__image">
+                                        {% endif %}
+                                    </a>
+                                    <div class="review__info">
+                                        <a href="{% url 'profile' pk=review.profile.id %}" class="text-md text-primary mb-xxsm">
+                                            {{ review.profile.first_name|title }} {{ review.profile.last_name|title }}
+                                        </a>
+                                        <p class="text-sm text-light">
+                                            {{ review.comment|linebreaksbr }}
+                                        </p>
+                                    </div>
+                                </article>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

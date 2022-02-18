@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Send Message
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <article class="card form-card">
+                <a href="{% url 'profile' pk=recipient.id %}" class="mb-xlg tag tag_circle tag_default">
+                    <img src="{% static 'img/icons/angle-left.svg' %}">
+                </a>
+                <form action="{% url 'send-message' pk=recipient.id %}" method="POST" class="form">
+                    {% csrf_token %}
+                    {% if not request.user.is_authenticated %}
+                    <div class="mb-md form__group">
+                        <label for="message-first-name" class="mb-xxsm form__label form__label_required">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="message-last-name" class="mb-xxsm form__label form__label_required">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="message-email" class="mb-xxsm form__label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                    </div>
+                    {% endif %}
+                    <div class="mb-md form__group">
+                        <label for="message-subject" class="mb-xxsm form__label form__label_required">{{ form.subject.label }}</label>
+                        {{ form.subject }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="message-body" class="mb-xxsm form__label form__label_required">{{ form.body.label }}</label>
+                        {{ form.body }}
+                    </div>                    
+                    <button type="submit" class="button button_lg button_primary">Send Message</button>
+                </form>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock content %}

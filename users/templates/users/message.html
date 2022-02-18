@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Message
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <article class="card message-card">
+                <div class="mb-xlg message-card__actions">
+                    <a href="{% url 'inbox' %}" class="tag tag_circle tag_default">
+                        <img src="{% static 'img/icons/angle-left.svg' %}">
+                    </a>
+                    <a href="{% url 'delete-message' pk=message.id %}?next=/message/{{ message.id }}" class="tag tag_sm bg-danger-light">
+                        <img src="{% static 'img/icons/trash.svg' %}" class="tag__icon">
+                        <small class="text-xxsm text-danger">Delete</small>
+                    </a>
+                </div>
+                <h2 class="text-xlg mb-sm">
+                    {{ message.subject }}
+                </h2>
+                {% if message.sender %}
+                <a href="{% url 'profile' pk=message.sender.id %}" class="text-lg text-primary mb-xxsm">
+                    {{ message.first_name|title }} {{ message.last_name|title }}
+                </a>
+                {% else %}
+                <p class="text-lg text-dark mb-xxsm">
+                    {{ message.first_name|title }} {{ message.last_name|title }}
+                </p>
+                {% endif %}
+                <p class="text-xsm text-light mb-lg">
+                    {{ message.created|date:"D d M Y, G:H" }}
+                </p>
+                <p class="text-sm">
+                    {{ message.body }}
+                </p>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock content %}

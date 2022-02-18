@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Add/Edit Skills
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <article class="card form-card">
+                <a href="{% url 'account' %}" class="mb-xlg tag tag_circle tag_default">
+                    <img src="{% static 'img/icons/angle-left.svg' %}">
+                </a>
+                <form action="" method="POST" class="form">
+                    {% csrf_token %}
+                    <div class="mb-md form__group">
+                        <label for="skill-name" class="mb-xxsm form__label form__label_required">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-md form__group">
+                        <label for="skill-description" class="mb-xxsm form__label">{{ form.description.label }}</label>
+                        {{ form.description }}
+                    </div>
+                    <button class="button button_lg button_primary">Submit</button>
+                </form>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock content %}

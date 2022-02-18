@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+Internal Server Error
+{% endblock page_title %}
+
+{% block content %}
+<main>
+    <section>
+        <div class="main-wrapper">
+            <article class="card text-center error-card">
+                <h1 class="text-xxlg text-danger error-card__number">500</h1>
+                <h2 class="text-lg mb-xlg">Interval Server Error</h2>
+                <p class="text-sm text-light">
+                    The server encountered an internal error or misconfiguration and was unable to complete your
+                    request.
+                </p>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock content %}

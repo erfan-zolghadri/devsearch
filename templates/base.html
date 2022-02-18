@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block page_title %}{% endblock page_title %}</title>
+</head>
+<body>
+    {% include 'includes/navbar.html' %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alerts-wrapper">
+        <div class="alert alert_{{ message.tags }}">
+            <p class="text-sm alert__text alert__text_{{ message.tags }}">{{ message }}</p>
+            <button class="text-lg alert__button alert__button_{{ message.tags }}">&#215;</button>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock content %}
+
+    <script src="{% static 'js/functions.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

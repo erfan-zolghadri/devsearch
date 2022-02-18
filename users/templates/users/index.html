@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+DevSearch - Connect with Developers!
+{% endblock page_title %}
+
+{% block content %}
+<header class="bg-secondary header">
+    <div class="main-wrapper">
+        <h1 class="text-xxlg text-center mb-xxlg">
+            <span class="header__title">
+                CONNECT WITH
+                <span class="text-bold">DEVELOPERS</span>
+            </span>
+            <span class="header__title">
+                FROM AROUND THE WORLD
+            </span>
+        </h1>
+        <form action="{% url 'index' %}" method="GET" class="text-center search-form">
+            <input type="search" class="input header__input" name="search" value="{{ search }}"
+                placeholder="Search for developers">
+            <button type="submit" class="button button_lg button_primary header__button">Search</button>
+        </form>
+    </div>
+</header>
+
+<main>
+    <section class="profiles">
+        <div class="main-wrapper">
+            <div class="profiles__wrapper">
+                {% for profile in profiles %}
+                <a href="{% url 'profile' pk=profile.id %}" class="text-dark card profile-card">
+                    <article>
+                        <div class="mb-sm profile-card__header">
+                            {% if profile.image %}
+                            <img src="{{ profile.image.url }}" alt="Profile Image" class="profile-card__image">
+                            {% else %}
+                            <img src="{% static 'img/default_profile.png' %}" alt="Profile Image"
+                                class="profile-card__image">
+                            {% endif %}
+                            <div>
+                                <h3 class="text-lg mb-xxsm">
+                                    {{ profile.first_name|title }} {{ profile.last_name|title }}
+                                </h3>
+                                {% if profile.headline %}
+                                <h4 class="text-sm text-light">
+                                    {{ profile.headline }}
+                                </h4>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if profile.bio %}
+                        <p class="text-sm mb-lg">
+                            {{profile.bio}}
+                        </p>
+                        {% endif %}
+                        <div class="tags-wrapper tags-wrapper_sm">
+                            {% for skill in profile.skill_set.all|slice:'5' %}
+                            <span class="tag tag_sm tag_default">
+                                <small class="text-xxsm">
+                                    {{ skill.name }}
+                                </small>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </article>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% include 'includes/pagination.html' with queryset=profiles page_range=page_range %}
+</main>
+{% endblock content %}
